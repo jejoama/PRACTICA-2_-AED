@@ -14,7 +14,6 @@ output:
 
 ```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
 # CONFIGURACIÓN GENERAL
-#hhvv
 library(knitr)
 options(width = 100)
 # Opciones generales chunks
@@ -158,6 +157,16 @@ p2
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio1.pdf``.
 
 ```{r Solucion ejercicio 1}
+library(readr)
+weatherAUS <- read_csv("data/weatherAUS.RData")
+#View(weatherAUS)
+library(ggplot2)
+grafico1 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp)) + geam_point() 
+grafico1
+#conjunto de datos: data. de ahi saco los datos, y me pide ds
+
+grafico2 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geam_point() 
+grafico2
 
 ggsave('figs/Ejercicio1.pdf')
 ```
@@ -171,6 +180,9 @@ ggsave('figs/Ejercicio1.pdf')
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio2.pdf``.
 
 ```{r Solucion ejercicio 2}
+
+
+
 
 ggsave('figs/Ejercicio2.pdf')
 ```
