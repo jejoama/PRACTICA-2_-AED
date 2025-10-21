@@ -221,8 +221,20 @@ ggsave('figs/Ejercicio2.pdf')
 rm(list=ls())
 load("data/iris_tidy.Rdata")
 str(iris.tidy)
+ls(iris.tidy)
+library(ggplot2)
+iris.grafico1 <- ggplot(data=iris.tidy, aes(x=Species, y=Value)) + geom_point()
+iris.grafico1
+
+iris.grafico2 <- ggplot(data=iris.tidy, aes(x=Species, y=Value, shape=Part, color=Part)) + geom_point()
+iris.grafico2
 
 
+iris.grafico3 <- ggplot(data=iris.tidy, aes(x=Species, y=Value, shape=Part, color=Part)) + geom_point() + facet_grid(Measure~.)
+iris.grafico3
+
+iris.grafico4 <- ggplot(data=iris.tidy, aes(x=Species, y=Value, shape=Part, color=Part)) + geom_jitter() + facet_grid(Measure~.)
+iris.grafico4
 
 ggsave('figs/Ejercicio3.pdf') # se almacena el último gráfico generado
 ```
