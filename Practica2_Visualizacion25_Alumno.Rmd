@@ -160,15 +160,22 @@ p2
 library(readr)
 weatherAUS <- read_csv("data/weatherAUS.RData")
 #View(weatherAUS)
+load("data/weatherAUS.RData")
+ls()
+str(ds)
 library(ggplot2)
-grafico1 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp)) + geam_point() 
+grafico1 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp)) + geom_point() 
 grafico1
 #conjunto de datos: data. de ahi saco los datos, y me pide ds
+# lo de geom point es para el grafico de dispersion
 
-grafico2 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geam_point() 
+grafico2 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geom_point() 
 grafico2
 
-ggsave('figs/Ejercicio1.pdf')
+grafico3 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geom_point() + ggtitle("Tabla1")
+grafico3
+
+ggsave("figs/Ejercicio1.pdf")
 ```
 
 ### **Ejercicio 2**
@@ -180,7 +187,7 @@ ggsave('figs/Ejercicio1.pdf')
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio2.pdf``.
 
 ```{r Solucion ejercicio 2}
-
+rm(list=ls())mm
 
 
 
