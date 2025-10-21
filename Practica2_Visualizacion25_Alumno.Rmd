@@ -187,7 +187,19 @@ ggsave("figs/Ejercicio1.pdf")
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio2.pdf``.
 
 ```{r Solucion ejercicio 2}
-rm(list=ls())mm
+rm(list=ls())
+library(ggplot2)
+load("data/weatherAUS.RData")
+ls(ds)
+gra1 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am)) + geom_point()
+gra1 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, shape=RainToday)) + geom_point()
+gra1
+
+gra2 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, color=RainToday)) + geom_point()
+gra2
+
+gra3 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, color=RainToday)) + geom_point() + labs(title="Hola", subtitle="no se que poner")
+gra3 
 
 
 
@@ -206,6 +218,11 @@ ggsave('figs/Ejercicio2.pdf')
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio3.pdf``.
 
 ```{r Solucion ejercicio 3}
+rm(list=ls())
+load("data/iris_tidy.Rdata")
+str(iris.tidy)
+
+
 
 ggsave('figs/Ejercicio3.pdf') # se almacena el último gráfico generado
 ```
