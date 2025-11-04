@@ -421,9 +421,34 @@ Añadir barras de error a un gráfico de línea.
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio5.pdf``.
 
 ```{r Solucion ejercicio 5}
+load("data/Experimento.Rdata")
+str(Experimento)
+```
+
+```{r}
+ggplot(Experimento, aes(x=Dosis, y=Altura, linetype = Complemento, shape=Complemento)) + geom_point()
+
+
+ggplot(Experimento, aes(x = Dosis, y = Altura, linetype = Complemento, shape = Complemento)) +
+  geom_point() +
+  geom_line() +
+  geom_errorbar(aes(ymin = Altura - Error_Altura, ymax = Altura + Error_Altura), width = 0.2)
+
+
+library(ggplot2)
+
+ggplot(Experimento, aes(x = Dosis, y = Altura, colour = Complemento)) +
+  geom_point(aes(shape = Complemento)) +
+  geom_line(aes(linetype = Complemento)) +
+  scale_color_brewer(palette = "Red")
+
+ggsave('figs/Ejercicio5.pdf')
 
 
 ```
+
+
+
 
 ### **Ejercicio 6 **
 
@@ -435,9 +460,12 @@ El fichero ``iceRiver.RData`` contiene información del caudal de dos ríos isla
 
 ```{r Solucion ejercicio 6 }
 
+load("data/iceRiver.RData")
+library(ggplot2)
+?tseries::ice.river
 
 ```
-
+?tseries::ice.river
 
 ## Gráficos boxplot con **ggplot2**
 
@@ -452,6 +480,20 @@ En esta sección vamos a utilizar **ggplot2** para representar distribuciones de
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio7.pdf``.
 
 ```{r Solucion ejercicio 7}
+rm(list=ls())
+
+load("data/weatherAUS_distributions.RData")
+library(ggplot2)
+ls()
+
+ggplot(ds, aes(x = factor(Year), y = MinTemp)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución de temperaturas mínimas por año",
+    x = "Año",
+    y = "Temperatura mínima (ºC)"
+  )
+
 
 ```
 
@@ -555,7 +597,9 @@ ggplot(data=dataset_hist1, aes(x=AGE)) +
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio8.pdf``.
 
 ```{r Solucion ejercicio 8}
-# 
+url <- "http://assets.datacamp.com/blog_assets/chol.txt"
+datos <- read.table(url, header = TRUE)
+str(datos)
 
 ```
 
