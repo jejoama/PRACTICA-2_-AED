@@ -48,6 +48,7 @@ R ofrece una serie de funciones para hacer gráficos en su distribución de base
 Como hemos dicho anteriormente **ggplot2** define una "gramática" para definir gráficos. En primer lugar tenemos que definir qué dataset vamos a utilizar mediante la función **ggplot()**, y un conjunto de *aesthetics* mediante la función **aes()**. En este ejemplo se va a definir el conjunto de datos que vamos a utilizar (**mtcars**) y vamos a definir un conjunto de aesthetics básico, donde indicaremos qué variable se va a representar en el eje $x$ (wt) y qué variable en el eje $y$ (mpg).
 
 ```{r}
+library(ggplot2)
 p<-ggplot(mtcars, aes(x = wt, y = mpg))
 p
 ```
@@ -72,11 +73,7 @@ p2
 Podemos utilizar la función `labs()` para añadir al gráfico, título, subtítulo, leyendas en los ejes y pie de figura (`caption`), etc. Por defecto los ejes se etiquetan con los nombres de las variables representadas.
 
 ```{r}
-p<-ggplot(data=mtcars, 
-          mapping=aes(x = wt, 
-                      y = mpg))+
-  geom_point()+
-  labs(title = "Motor Trend Car Road Tests",
+p<-ggplot(mtcars, aes(x = wt, y = mpg))+ geom_point()+ labs(title = "Motor Trend Car Road Tests",
        subtitle = "Relación entre el peso de un vehículo y su consumo",
        x = "Weight (1000 lbs)",
        y = "Miles/(US) gallon",
@@ -87,8 +84,12 @@ p
 Podemos incluir información de una variable categórica de muchas maneras en un gráfico de dispersión, color, tamaño o forma del punto. Por ejemplo imaginemos que queremos hacer la representación anterior pero haciendo que los puntos tengan diferentes colores dependiendo de la variable **vs**.
 
 ```{r}
-p<-ggplot(mtcars, aes(x = wt, y = mpg, colour=vs))+geom_point()
-p
+ggplot(mtcars, aes(x = wt, y = mpg, color=vs))+ geom_point()+ labs(title = "Motor Trend Car Road Tests",
+       subtitle = "Relación entre el peso de un vehículo y su consumo",
+       x = "Weight (1000 lbs)",
+       y = "Miles/(US) gallon",
+       caption = "The data was extracted from the 1974 Motor Trend US magazine.")
+
 ```
 
 Como puedes observar ggplot ha tratado a la variable **vs** como una variable continua ya que es de tipo numérico (a pesar de que sólo toma valores 0 y 1), si la convertimos a factor, la cosa será diferente.
@@ -156,24 +157,29 @@ p2
 * Añade a ``grafico2`` una capa para incluir un título con **ggtitle()** y almacénalo en ``grafico3``.
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio1.pdf``.
 
-```{r Solucion ejercicio 1}
+```{r}
 library(readr)
-weatherAUS <- read_csv("data/weatherAUS.RData")
-#View(weatherAUS)
 load("data/weatherAUS.RData")
 ls()
 str(ds)
 library(ggplot2)
-grafico1 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp)) + geom_point() 
+grafico1 <- ggplot(ds, aes(x=MinTemp, y=MaxTemp)) + geom_point()
 grafico1
-#conjunto de datos: data. de ahi saco los datos, y me pide ds
-# lo de geom point es para el grafico de dispersion
 
-grafico2 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geom_point() 
+```
+```{r}
+grafico2 <- ggplot(ds, aes(x=MinTemp, y=MaxTemp, colour=RainTomorrow)) + geom_point()
 grafico2
+```
 
-grafico3 <- ggplot(data=ds, mapping=aes(x=MinTemp, y=MaxTemp, color=RainTomorrow)) + geom_point() + ggtitle("Tabla1")
+```{r}
+grafico3 <- ggplot(ds, aes(x=MinTemp, y=MaxTemp, colour=RainTomorrow)) + geom_point() + ggtitle("Hola")
 grafico3
+```
+
+
+
+```{r Solucion ejercicio 1}
 
 ggsave("figs/Ejercicio1.pdf")
 ```
@@ -186,23 +192,26 @@ ggsave("figs/Ejercicio1.pdf")
 * Añade títulos explicativos al gráfico anterior (debe aparece un título, subtítulo, leyendas e información de las variables representadas en los ejes). 
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio2.pdf``.
 
-```{r Solucion ejercicio 2}
-rm(list=ls())
+```{r}
 library(ggplot2)
+rm(list=ls())
 load("data/weatherAUS.RData")
 ls(ds)
-gra1 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am)) + geom_point()
-gra1 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, shape=RainToday)) + geom_point()
-gra1
+ggplot(ds, aes(x=Temp9am, y=Pressure9am, shape=RainToday)) + geom_point()
+```
 
-gra2 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, color=RainToday)) + geom_point()
-gra2
 
-gra3 <- ggplot(data=ds, aes(x=Temp9am, y=Pressure9am, color=RainToday)) + geom_point() + labs(title="Hola", subtitle="no se que poner")
-gra3 
+```{r}
+ggplot(ds, aes(x=Temp9am, y=Pressure9am, colour=RainToday)) + geom_point() + labs(title="Hola", subtitle = "No se que pner", x="hi", y="hey")
+```
 
 
 
+
+
+
+
+```{r Solucion ejercicio 2}
 ggsave('figs/Ejercicio2.pdf')
 ```
 
@@ -216,6 +225,41 @@ ggsave('figs/Ejercicio2.pdf')
 * Incluye información de la variable ``Measure`` haciendo dos gráficos de dispersión (dispuestos en filas) con **facet_grid()**, como en el apartado de introducción, para los dos valores que toma la variable ``Measure``. Prueba a cambiar la disposición de los gráficos para que sea en columnas ¿Qué disposición, en filas o en columnas, permite comparar mejor los valores de las dos variables?
 * Cambia ahora la capa **geom_point()** del gráfico anterior por la capa  **geom_jitter()**. ¿Qué diferencia observas?
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio3.pdf``.
+
+```{r}
+rm(list=ls())
+load("data/iris_tidy.Rdata")
+str(iris.tidy)
+```
+```{r}
+library(ggplot2)
+iris.grafico1 <- ggplot(iris.tidy, aes(x=Species, y=Value)) + geom_point()
+iris.grafico1
+```
+
+```{r}
+iris.grafico2 <- ggplot(iris.tidy, aes(x=Species, y=Value, shape= Part, colour=Part)) + geom_point()
+iris.grafico2
+```
+
+```{r}
+iris.grafico3 <- ggplot(iris.tidy, aes(x=Species, y=Value, shape= Part, colour=Part)) + geom_point() + facet_grid(~Measure)
+iris.grafico3
+```
+
+```{r}
+iris.grafico3 <- ggplot(data=iris.tidy, aes(x=Species, y=Value, shape=Part, color=Part)) + geom_point() + facet_grid(Measure~.)
+iris.grafico3
+```
+
+```{r}
+iris.grafico3 <- ggplot(data=iris.tidy, aes(x=Species, y=Value, shape=Part, color=Part)) + geom_jitter() + facet_grid(Measure~.)
+iris.grafico3
+```
+
+
+
+
 
 ```{r Solucion ejercicio 3}
 rm(list=ls())
@@ -318,8 +362,24 @@ ggplot(data=Dosis.Medicina2, aes(x=Dosis, y=Efectividad, group=Complemento)) +
 * Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio4.pdf``.
 
 ```{r Solucion ejercicio 4}
+rm(list=ls())
+load("data/Ejercicio4_Data.Rdata")
+ls()
+
 
 ```
+```{r}
+library(ggplot2)
+ 
+m <- ggplot(DatosEjer4, aes(x=Fecha, y=Ventas, colour=Fabricante)) + geom_point() + geom_line()
+n <- ggplot(DatosEjer4, aes(x=Fecha, y=Ventas, colour=Fabricante)) + geom_point() + geom_line(aes(linetype = Fabricante))
+m
+n
+ggsave('figs/Ejercicio4.pdf')
+```
+
+
+
 
 ## Barras de error con **ggplot2**
 
